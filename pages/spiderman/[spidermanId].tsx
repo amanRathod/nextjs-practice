@@ -4,7 +4,8 @@ import useSWR from "swr";
 import axios from "axios";
 import { useRouter } from "next/router";
 import PokemonId from '../../components/pokemonId';
-import SpidermanId from '../../components/spidermanId'
+import SpidermanId from '../../components/layout/spidermanId'
+import Header from '../../components/Header';
 
 const link = "https://pokeapi.co/api/v2/";
 
@@ -57,4 +58,14 @@ export default function Post({ pokemonDetail }) {
      <SpidermanId spidermanDetail={data} />
     </div>
   );
+}
+
+Post.getLayout = function PageLayout(page) {
+  return (
+    <>
+      <Header />
+      {page}
+    </>
+  )
+  
 }

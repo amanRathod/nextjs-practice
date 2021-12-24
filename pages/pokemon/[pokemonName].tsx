@@ -2,7 +2,7 @@ import { GetStaticProps, GetStaticPaths } from "next";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/router";
-import PokemonId from '../../components/pokemonId';
+import PokemonId from 'components/pokemonId';
 
 const link = "https://pokeapi.co/api/v2/";
 

@@ -1,10 +1,11 @@
 import Link from "next/link";
+import Head from 'next/head';
 import { GetStaticProps, GetStaticPaths } from "next";
 import axios from "axios";
 const connectDB = require("../lib/mongodb");
-import styles from "../styles/Home.module.css";
-import AllPokemon from "../components/allPokemon";
-import SpiderMan from '../components/allSpiderman';
+import styles from "styles/Home.module.css";
+import AllPokemon from "components/allPokemon";
+import SpiderMan from "components/allSpiderman";
 
 const Post = {
   title: "",
@@ -41,6 +42,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 export default function Home(props: any) {
   return (
     <div className={styles.container}>
+      <Head>
+        <title>Home</title>
+        <link rel="icon" href="/favicon.ico" />
+        <meta content="Super hero page" />
+      </Head>
       <h1 style={{ textAlign: 'center' }}>Pokemon Collection</h1>
       <div style={{ display: 'flex', }}>
 

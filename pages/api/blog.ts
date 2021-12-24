@@ -6,18 +6,20 @@ const axios = require('axios');
 
 const link = 'https://blogthese.herokuapp.com/api/v1/user';
 
-export async function GetUserData() {
+export async function GetUserData(req, res) {
   try {
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNmQ2MDMwNzE3NTYwZTAyMGNlYWZmMiIsImVtYWlsIjoiZXhhbXBsZTFAZ21haWwuY29tIiwidXNlcm5hbWUiOiJyYXRob2QwMDciLCJpYXQiOjE2Mzk4MDI3NDYsImV4cCI6MTYzOTgwOTk0Nn0.Fe3JDe1jMl3dp_oeC5pTQFdPkwfvuc_vtaMgc1RU19k';
+    const db = await connectToDatabase(process.env.MONGODB_URI);
+    const users = db.collection('users');
+    const user = await users.findOne({ _id: ObjectId(req.params.id) });
 
-    const config = {
-      headers: {
-        'Content-type': 'application/json',
-        Authorization: `Bearer ${token}`
-      }
-    };
-    const response = await axios.get(`${link}/user-data`, config);
-    return response.data;
+    
+    if (!user) {
+      res.status(404).send('User not found');
+    } else {
+      res.status(200).send(user);
+    }
+
+
   } catch (err) {
     console.log(err);
   }

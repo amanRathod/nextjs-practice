@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { GetStaticProps, GetStaticPaths } from "next";
 import axios from "axios";
-const connectDB = require("../lib/mongodb");
+// const connectDB = require("../lib/mongodb");
 import styles from "../styles/Home.module.css";
 
 
