@@ -20,7 +20,7 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "@/layout/*": ["components/layout/*"],
+      "@/layout/*": ["wcomponents/layout/*"],
     },
   },
   "include": [
