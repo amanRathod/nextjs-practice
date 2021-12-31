@@ -1,72 +1,22 @@
-const {
-  PHASE_DEVELOPMENT_SERVER,
-  PHASE_PRODUCTION_BUILD,
-} = require('next/constants')
-
-module.exports = (phase) => {
-
-  // npm run dev or next dev
-  const isDev = phase === PHASE_DEVELOPMENT_SERVER;
-
-  // npm run build or next build
-  const isProd = phase === PHASE_PRODUCTION_BUILD && process.env.STAGING !== '1';
-
-  // npm run build or next build
-  const isStaging = phase === PHASE_PRODUCTION_BUILD && process.env.STAGING === '1';
-
-  const env = {
-      TITLE: (() => {
-          if(isDev) return 'Title Dev'
-          if(isProd) return 'Title Prod'
-          if(isStaging) return 'Title Stg'
-      })()
+module.exports = function(...args) {
+  let original = require('./next.config.original.1640921332367.js');
+  const finalConfig = {};
+  const target = { target: 'serverless' };
+  if (typeof original === 'function' && original.constructor.name === 'AsyncFunction') {
+    // AsyncFunctions will become promises
+    original = original(...args);
   }
-
-  const basePath = '/app'
-
-
-  const rewrites = () => {
-      return [
-          {
-              source: '/heroes',
-              destination: '/app'  
-          }
-      ]
+  if (original instanceof Promise) {
+    // Special case for promises, as it's currently not supported
+    // and will just error later on
+    return original
+      .then((originalConfig) => Object.assign(finalConfig, originalConfig))
+      .then((config) => Object.assign(config, target));
+  } else if (typeof original === 'function') {
+    Object.assign(finalConfig, original(...args));
+  } else if (typeof original === 'object') {
+    Object.assign(finalConfig, original);
   }
-
-  const redirects = () => {
-      return [
-          {
-              source: '/home',
-              destination: '/heroes',
-              permanent: true
-          }
-      ]
-  }
-
-  const headers = () => {
-      return [
-          {
-              source: '/',
-              headers: [
-                  {
-                      key: "x-custom-header-1",
-                      value: "my custom header 1"
-                  }
-              ]
-          }
-      ]
-  }
-
-  const assetPrefix = isProd? 'https://cdnjs.cloudflare.com/ajax/libs/react/18.0.0-rc.0-next-f2a59df48-20211208/cjs/react-unstable-shared-subset.production.min.js': ''
-
-  return {
-      env,
-      basePath,
-      rewrites,
-      redirects,
-      headers,
-      assetPrefix
-  }
+  Object.assign(finalConfig, target);
+  return finalConfig;
 }
-
