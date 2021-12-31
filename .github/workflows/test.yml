@@ -6,7 +6,7 @@ jobs:
       steps:
         - uses: actions/checkout@v2
         - uses: actions/setup-node@v2
-          width:
+          with:
             node-version: "14.17.0"
         - name: Build the project
           run: npm run build
