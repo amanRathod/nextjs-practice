@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "vc build --prod --confirm --token=$VERCEL_TOKEN"
+    "deploy": "vc .next --prod --confirm --token=$VERCEL_TOKEN"
   },
   "dependencies": {
     "axios": "^0.24.0",
