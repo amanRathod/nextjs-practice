@@ -9,7 +9,7 @@ jobs:
           with:
             node-version: "14.17.0"
         - name: Install nodemodule
-          run: npm
+          run: npm install
         - name: Build the project
           run: npm run build
         - name: Build finish
